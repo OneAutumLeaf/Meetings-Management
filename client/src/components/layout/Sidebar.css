@@ -1,0 +1,180 @@
+/* src/components/layout/Sidebar.css */
+:root {
+  --primary-color: #337ab7;
+  --dark-bg: #2c3e50;
+  --dark-secondary: #34495e;
+  --light-text: #ecf0f1;
+  --muted-text: #bdc3c7;
+  --hover-bg: #3c5670;
+}
+
+/* Base Sidebar Styles */
+.sidebar {
+  width: 220px;
+  background-color: #337ab7;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease, transform 0.3s ease-in-out;
+  flex-shrink: 0;
+  z-index: 1040;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+}
+
+.sidebar-header {
+  padding: 1rem 1rem 1rem 1rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+
+.app-title {
+  color: white;
+  font-weight: 600;
+}
+
+.nav-menu {
+  list-style: none;
+  padding: 0 0.75rem;
+  margin: 1rem 0 0 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex-grow: 1;
+  scroll-behavior: smooth;
+  scrollbar-width: none;       /* For Firefox */
+  -ms-overflow-style: none;  /* For IE and Edge */
+}
+.nav-menu::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-link-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0.75rem;
+  margin-bottom: 0.25rem;
+  margin-top:0.5rem;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.sidebar.collapsed .nav-link-item {
+  justify-content: center;
+  padding: 0.75rem 0.5rem;
+}
+
+.nav-link-item:hover,
+.sidebar-footer:hover {
+  background-color: #6e97f7;
+  color: white;
+}
+
+.nav-link-item.active {
+  background-color: #6e97f7;
+  color: white;
+  box-shadow: 0 4px 10px rgba(51, 122, 183, 0.3);
+}
+
+.nav-link-item .bi {
+  font-size: 1rem;
+  min-width: 1rem;
+  text-align: center;
+  transition: font-size 0.3s ease;
+}
+
+.sidebar.collapsed .nav-link-item .bi {
+  font-size: 1rem;
+  min-width: auto;
+}
+
+/* NEW: Style for submenu items to give them slight indentation */
+.submenu-item .nav-link-item {
+  /* This pushes the content (icon and label) to the right */
+  padding-left: 1.5rem; 
+}
+
+/* Sidebar Footer (Unchanged) */
+.sidebar-footer {
+  padding: 1rem;
+  border-top: 1px solid var(--dark-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--muted-text);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sidebar-footer .bi {
+  font-size: 0.8rem;
+  text-align: center;
+  transition: font-size 0.3s ease;
+}
+
+.sidebar.collapsed .sidebar-footer {
+  justify-content: center;
+  padding: 1rem 0.5rem;
+}
+.sidebar.collapsed .sidebar-footer .bi {
+  min-width: 0;
+}
+
+/* Collapse Logic for Labels (Unchanged) */
+.nav-label,
+.footer-label {
+  transition: opacity 0.2s ease, width 0.2s ease;
+  opacity: 1;
+  width: auto;
+}
+.sidebar.collapsed .nav-label,
+.sidebar.collapsed .arrow,
+.sidebar.collapsed .footer-label {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+  display: none;
+}
+.arrow {
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+}
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+
+/* Mobile View (Unchanged) */
+@media (max-width: 767.98px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    transform: translateX(-100%);
+    width: 220px;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .sidebar-footer {
+    display: none;
+  }
+  .sidebar-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1039;
+  }
+}

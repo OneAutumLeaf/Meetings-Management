@@ -1,0 +1,497 @@
+
+/* --- Main Container --- */
+.team-group-container {
+    background-color: #ffffff;
+    padding: 1.5rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    color: #334155;
+    margin: 2rem;
+    border: 1px solid #e2e8f0;
+}
+
+/* --- Header Section --- */
+.team-group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.team-group-header h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.entry-button {
+    background-color: #BBDEFB;
+    color: #0D47A1;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.entry-button:hover {
+    background-color: #e2e8f0;
+}
+
+/* --- Body (Tabs and Table) --- */
+.team-group-body {
+    padding-top: 1rem;
+}
+
+/* --- Tabs --- */
+.tabs {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.tab-button {
+    padding: 0.6rem 1.5rem;
+    border: none;
+    background-color: #f1f5f9;
+    color: #475569;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 0.375rem;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.tab-button.active {
+    background-color: #BBDEFB;
+    color: #0D47A1;
+}
+
+.tab-button:not(.active):hover {
+    background-color: #e2e8f0;
+}
+
+/* --- Table Controls (Show & Search) --- */
+.table-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+}
+
+.show-entries, .search-records {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.show-entries select, .search-records input {
+    padding: 0.5rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.375rem;
+    background-color: #ffffff;
+}
+
+.show-entries select {
+    min-width: 60px;
+}
+
+.search-records input {
+    width: 250px;
+}
+
+.search-records input::placeholder {
+    color: #94a3b8;
+}
+
+/* --- Table Wrapper and Styles --- */
+.table-wrapper {
+    overflow-x: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+
+.data-table th, .data-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.875rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.data-table thead {
+    background-color: #f1f5f9;
+}
+
+.data-table th {
+    font-weight: 600;
+    color: #475569;
+}
+
+.data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.loading-text, .no-data-text {
+    text-align: center;
+    padding: 2rem;
+    color: #64748b;
+    font-style: italic;
+}
+
+/* --- Action Icons in Table --- */
+.action-cell {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.icon-button-action {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 50%;
+    display: flex;
+    font-size: 1.1rem;
+    transition: background-color 0.2s;
+}
+
+.icon-button-action.view { color: #16a34a; }
+.icon-button-action.edit { color: #2563eb; }
+.icon-button-action.delete { color: #dc2626; }
+
+.icon-button-action.view:hover { background-color: #dcfce7; }
+.icon-button-action.edit:hover { background-color: #dbeafe; }
+.icon-button-action.delete:hover { background-color: #fee2e2; }
+
+
+/* --- Pagination --- */
+.table-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+    font-size: 0.875rem;
+}
+
+.showing-entries-info {
+    color: #64748b;
+}
+
+.pagination-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.pagination-buttons button {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.pagination-buttons button:hover:not(:disabled) {
+    background-color: #e2e8f0;
+}
+
+.pagination-buttons button:disabled {
+    color: #cbd5e1;
+    cursor: not-allowed;
+}
+
+.pagination-buttons button.active-page {
+    background-color: #2563eb;
+    color: white;
+    border-color: #2563eb;
+    font-weight: 600;
+}
+
+/*
+=================================
+--- MODAL STYLES ---
+=================================
+*/
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.modal-header h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.modal-close-button {
+    background-color: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 0.1rem 0.5rem;
+    font-size: 1.5rem;
+    line-height: 1;
+    transition: background-color 0.2s;
+}
+.modal-close-button:hover {
+    background-color: #f3f4f6;
+}
+
+.modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+/* --- Modal Form Styles --- */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.form-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #475569;
+}
+.form-group label.required::after {
+    content: ' *';
+    color: #ef4444;
+}
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+}
+.form-group input[type="text"]::placeholder {
+    color: #9ca3af;
+}
+
+/* --- Modal Team Members Section --- */
+.team-members-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.team-members-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.team-members-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.add-row-button {
+    background-color: #ffffff;
+    border: 1px solid #a0aec0;
+    border-radius: 0.375rem;
+    padding: 0.1rem 0.6rem;
+    cursor: pointer;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #4a5568;
+}
+.add-row-button:hover {
+    background-color: #f7fafc;
+}
+
+/* --- Modal Members Table --- */
+.table-wrapper-modal {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    overflow: hidden; /* Ensures child elements respect border radius */
+}
+.members-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.members-table th, .members-table td {
+    padding: 0.75rem;
+    text-align: left;
+    font-size: 0.875rem;
+    border: 1px solid #e2e8f0;
+}
+.members-table thead {
+    background-color: #e0f2fe; /* Light blue from image */
+}
+.members-table th {
+    font-weight: 600;
+    color: #0c4a6e;
+    border-top: none;
+}
+.members-table th:first-child { border-left: none; }
+.members-table th:last-child { border-right: none; }
+
+.members-table td {
+    background-color: #fff;
+}
+.members-table tr:last-child td {
+    border-bottom: none;
+}
+.members-table td:first-child { border-left: none; }
+.members-table th:last-child {
+    text-align: center;
+}
+
+
+/* Dropdown styling for modal table */
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+.select-wrapper::after {
+    content: '▼';
+    font-size: 0.6rem;
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    pointer-events: none;
+}
+.members-table select {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.375rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #fff;
+}
+
+/* Member action cell styles */
+.member-action-cell {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: center; /* This is the key for horizontal centering */
+    width: 100px; /* Keeping a fixed width helps with alignment */
+}
+.member-action-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+.member-action-button.add {
+    font-size: 1.5rem;
+    color: #000;
+}
+.member-action-button.remove {
+    font-size: 1rem;
+    color: #c53030;
+    border: 1.5px solid #c53030;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: background-color 0.2s, color 0.2s;
+}
+.member-action-button.remove span {
+    margin-top: -2px; /* vertical alignment */
+}
+.member-action-button.remove:hover {
+    background-color: #c53030;
+    color: white;
+}
+
+
+/* --- Modal Footer Button Styles --- */
+.button-primary-modal {
+    background-color: #3b82f6; /* Blue similar to image */
+    color: white;
+    border: none;
+    padding: 0.6rem 1.25rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+.button-primary-modal:hover {
+    background-color: #2563eb;
+}
+.button-secondary-modal {
+    background-color: white;
+    color: #3b82f6;
+    border: 1px solid #3b82f6;
+    padding: 0.6rem 1.25rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.button-secondary-modal:hover {
+    background-color: #eff6ff;
+}

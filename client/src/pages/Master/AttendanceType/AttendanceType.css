@@ -1,0 +1,362 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+.page-container {
+  font-family: "Inter", sans-serif;
+  background-color: #eef2f6;
+  padding: 24px;
+  color: #334155;
+  min-height: 100vh;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.page-header h1 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.entry-button {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 8px 24px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.entry-button:hover {
+  background-color: #059669;
+}
+
+.content-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.tab-buttons {
+  display: inline-flex;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.tab-buttons button {
+  padding: 10px 24px;
+  border: 1px solid #d1d5db;
+  background-color: #f9fafb;
+  color: #374151;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.tab-buttons button:first-child {
+  border-right: none;
+}
+
+.tab-buttons button.active {
+  background-color: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.tab-buttons button:not(.active):hover {
+  background-color: #f3f4f6;
+}
+
+.table-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.show-entries {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.show-entries select {
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-container input {
+  padding: 7px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  width: 250px;
+}
+.search-container input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.875rem;
+}
+
+.data-table thead {
+  background-color: #f9fafb;
+}
+
+.data-table th {
+  font-weight: 600;
+  color: #374151;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+  background-color: #f3f4f6;
+}
+
+.status-cell {
+  text-align: center;
+  padding: 40px;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.action-icons {
+  display: flex;
+  gap: 16px;
+}
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.1rem;
+}
+.edit-icon {
+  color: #3b82f6;
+}
+.delete-icon {
+  color: #ef4444;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.pagination-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination-buttons button {
+  padding: 6px 12px;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.pagination-buttons button:disabled {
+  color: #9ca3af;
+  background-color: #f9fafb;
+  cursor: not-allowed;
+}
+.pagination-buttons .page-number {
+  padding: 6px 14px;
+  background-color: #8b5cf6;
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+/* --- ================== --- */
+/* --- MODAL STYLES --- */
+/* --- ================== --- */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(107, 114, 128, 0.75); /* Gray-500 with 75% opacity */
+  display: flex;
+  align-items: flex-start; /* Aligns modal to the top */
+  justify-content: center;
+  padding-top: 5%; /* Adds some space from the top */
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  width: 100%;
+  max-width: 600px; /* Control the modal width */
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #4c51bf; /* A shade of purple-blue from image */
+}
+
+.modal-close-button {
+  background: transparent;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+.modal-close-button:hover {
+  background-color: #f3f4f6;
+}
+
+.modal-body {
+  padding: 24px;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.modal-body .form-group {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal-body .form-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.modal-body .form-group .required-star {
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+.modal-body .form-group input {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+}
+
+.modal-body .form-group input::placeholder {
+  color: #9ca3af;
+}
+
+.modal-body .form-group input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+
+.modal-footer {
+  padding: 16px 24px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.button-save {
+  background-color: #22c55e; /* Green from image */
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.button-save:hover {
+  background-color: #16a34a;
+}
+
+.button-cancel {
+  background-color: #ffffff;
+  color: #3b82f6; /* Blue text */
+  border: 1px solid #3b82f6; /* Blue border */
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.button-cancel:hover {
+  background-color: #eff6ff; /* Light blue on hover */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

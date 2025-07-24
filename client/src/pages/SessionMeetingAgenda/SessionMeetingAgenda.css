@@ -1,0 +1,248 @@
+/* ========================================================================== */
+/* --- GLOBAL & PAGE STYLES (NO CHANGES) --- */
+/* ========================================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  color: #475569;
+}
+
+.session-meeting-agenda-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.session-meeting-agenda-container {
+  background-color: #ffffff;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+}
+
+/* ... (All other main page styles remain the same) ... */
+.session-meeting-agenda-header{font-size:1.25rem;font-weight:600;color:#334155;margin:0 0 1.5rem 0;padding-bottom:1rem;border-bottom:1px solid #e2e8f0}.session-meeting-agenda-filter-section{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}.session-meeting-agenda-filter-controls-left{display:flex;align-items:flex-end;gap:1rem}.session-meeting-agenda-form-group label{display:block;font-size:.9rem;font-weight:500;color:#475569;margin-bottom:.5rem}.session-meeting-agenda-select-wrapper{position:relative}.session-meeting-agenda-select-wrapper::after{content:'▾';font-size:1rem;position:absolute;right:.75rem;top:50%;transform:translateY(-50%);color:#94a3b8;pointer-events:none}.session-meeting-agenda-select-wrapper select{-webkit-appearance:none;-moz-appearance:none;appearance:none;width:250px;padding:.6rem 2rem .6rem .75rem;border:1px solid #cbd5e1;border-radius:6px;font-size:.875rem;background-color:#fff}.session-meeting-agenda-btn{padding:.6rem 1.5rem;border:none;border-radius:6px;font-size:.875rem;font-weight:500;cursor:pointer;transition:background-color .2s;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;white-space:nowrap}.session-meeting-agenda-btn-filter,.session-meeting-agenda-btn-new-agenda{background-color:#3B82F6;color:#fff;height:fit-content}.session-meeting-agenda-btn-filter:hover,.session-meeting-agenda-btn-new-agenda:hover{background-color:#2563eb}.session-meeting-agenda-table-controls{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;font-size:.875rem;flex-wrap:wrap;gap:1rem}.session-meeting-agenda-show-entries,.session-meeting-agenda-search-records{display:flex;align-items:center;gap:.5rem}.session-meeting-agenda-show-entries select,.session-meeting-agenda-search-records input{padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:4px}.session-meeting-agenda-table-wrapper{width:100%;overflow-x:auto;border:1px solid #e2e8f0;border-radius:8px}table{width:100%;border-collapse:collapse}th,td{padding:.8rem 1rem;text-align:left;font-size:.875rem;border-bottom:1px solid #e2e8f0;white-space:nowrap}.session-meeting-agenda-loading-cell{text-align:center;padding:3rem;color:#64748b;font-style:italic;font-size:1rem}.session-meeting-agenda-table-footer{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;font-size:.875rem;color:#64748b;flex-wrap:wrap;gap:1rem}.session-meeting-agenda-pagination button{background-color:#fff;border:1px solid #e2e8f0;padding:.5rem 1rem;cursor:pointer}
+
+
+/* ========================================================================== */
+/* --- MODAL STYLES (WITH CHANGES) --- */
+/* ========================================================================== */
+
+.agenda-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.agenda-modal-content {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+}
+
+.agenda-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.agenda-modal-header h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.agenda-modal-close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  padding: 0;
+}
+
+.agenda-modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.agenda-modal-form-row {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.agenda-modal-form-group {
+  flex: 1;
+  min-width: 250px;
+}
+
+.agenda-modal-form-group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.agenda-modal-form-group label.required::after {
+  content: ' *';
+  color: #ef4444;
+}
+
+.agenda-modal-form-group input,
+.agenda-modal-form-group select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #f9fafb;
+}
+
+.agenda-modal-select-wrapper {
+  position: relative;
+}
+
+.agenda-modal-select-wrapper::after {
+  content: '▾';
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.agenda-modal-form-group select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.agenda-modal-mom-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e0f2fe;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  color: #0c4a6e;
+  margin-bottom: 1rem;
+}
+
+.agenda-modal-mom-header h3 {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.agenda-modal-mom-add-btn {
+  background: none;
+  border: none;
+  color: #0c4a6e;
+  cursor: pointer;
+}
+
+/* CHANGE: This is where the magic happens. */
+.agenda-modal-mom-table-wrapper {
+  overflow-x: auto; /* Show horizontal scrollbar if content is too wide */
+}
+
+.agenda-modal-mom-table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.agenda-modal-mom-table-wrapper th,
+.agenda-modal-mom-table-wrapper td {
+  border: 1px solid #e2e8f0;
+  padding: 0.75rem;
+  text-align: center;
+  white-space: nowrap; /* Prevent headers and content from wrapping to new lines */
+}
+
+.agenda-modal-mom-table-wrapper thead {
+  background-color: #f1f5f9;
+}
+
+.agenda-modal-mom-table-wrapper td input {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 0.5rem;
+  min-width: 120px; /* Give the inputs a minimum width */
+}
+
+.agenda-modal-mom-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.action-icon {
+  cursor: pointer;
+}
+.action-icon.add {
+  color: #3b82f6;
+}
+.action-icon.delete {
+  color: #ef4444;
+}
+
+/* CHANGE: Footer layout updated */
+.agenda-modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  align-items: center;
+}
+
+/* REMOVED: Unnecessary scrollbar container styles are gone */
+
+.agenda-modal-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.agenda-modal-btn-save {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.agenda-modal-btn-cancel {
+  background-color: #f97316;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+}

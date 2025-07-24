@@ -1,0 +1,268 @@
+/* --- Global Styles & Imports --- */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+.voting-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f8fafc; /* Overall background */
+  font-family: "Inter", sans-serif;
+  color: #334155;
+  padding: 2rem;
+  gap: 1.5rem;
+}
+
+/* --- ================== --- */
+/* --- Header Styles --- */
+/* --- ================== --- */
+.voting-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.voting-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.voting-back-button {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.25rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.voting-back-button:hover {
+  background-color: #2563eb;
+}
+
+/* --- ================== --- */
+/* --- Filter Card Styles --- */
+/* --- ================== --- */
+.voting-filters-card {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+}
+
+.voting-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-end; /* Align items to the bottom */
+}
+
+.voting-form-group {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.voting-form-group-action {
+  flex-shrink: 0;
+}
+
+.voting-form-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #475569;
+}
+
+.voting-input-with-icon {
+  position: relative;
+}
+
+.voting-input-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+}
+
+.voting-input-with-icon input {
+  padding-left: 2.25rem;
+}
+
+.voting-form-group input, .voting-custom-select {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.375rem;
+  background-color: #ffffff;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.voting-form-group input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.voting-custom-select {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f1f5f9; /* Light grey background for the selected item */
+}
+
+.voting-clear-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 0.5rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+}
+.voting-clear-button:hover {
+  color: #1e293b;
+}
+
+.voting-filter-button {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.voting-filter-button:hover {
+  background-color: #2563eb;
+}
+
+/* --- ================== --- */
+/* --- Table Styles --- */
+/* --- ================== --- */
+.voting-table-card {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.voting-table-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.875rem;
+}
+
+.voting-show-entries {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.voting-show-entries select {
+  padding: 0.3rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.25rem;
+}
+
+.voting-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.voting-search-bar input {
+  border: 1px solid #cbd5e1;
+  border-radius: 0.25rem;
+  padding: 0.4rem 0.6rem;
+}
+
+.voting-table-container {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.375rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+
+th, td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+thead {
+  background-color: #f1f5f9;
+}
+
+th {
+  font-weight: 600;
+  color: #334155;
+}
+
+.voting-no-data {
+  text-align: center;
+  color: #64748b;
+  padding: 2rem;
+  font-style: italic;
+}
+
+/* --- ================== --- */
+/* --- Pagination Styles --- */
+/* --- ================== --- */
+
+.voting-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: #475569;
+}
+
+.voting-pagination-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.voting-pagination-buttons button {
+  background-color: white;
+  border: 1px solid #cbd5e1;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.voting-pagination-buttons button:hover:not(:disabled) {
+  background-color: #f8fafc;
+}
+
+.voting-pagination-buttons button:disabled {
+  color: #94a3b8;
+  background-color: #f8fafc;
+  cursor: not-allowed;
+}
