@@ -1,15 +1,15 @@
 import axios from "axios";
 import { getToken } from "../utils/tokenService";
 
-const axiosLeadInstance = axios.create({
-    baseURL: import.meta.env.VITE_APP_API_MENU_BASE_URL,
+const axiosMeetingInstance = axios.create({
+    baseURL: import.meta.env.VITE_APP_API_MEETING_BASE_URL,
     timeout: 10000,
     headers: {
         "Content-Type": "application/json",
     },
 });
 
-axiosLeadInstance.interceptors.request.use(
+axiosMeetingInstance.interceptors.request.use(
   (config) => {
     const token = getToken("node");
     if (token) {
@@ -21,4 +21,4 @@ axiosLeadInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-export default axiosLeadInstance;
+export default axiosMeetingInstance;

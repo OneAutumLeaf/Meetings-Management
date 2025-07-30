@@ -1,11 +1,12 @@
 /* Using a prefix 'co-' for 'Change Owner' to avoid style conflicts */
 .co-container {
-  background-color: #fff;
-  padding: 24px;
-  margin: 2rem;
+ background-color: #ffffff;
+  padding: 1.5rem 2rem;
   border-radius: 8px;
-  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   color: #334155;
+  margin: 2rem;
+  border: 1px solid #e2e8f0;
 }
 
 .co-title {
@@ -118,7 +119,7 @@
 
 .co-btn-secondary {
   background-color: white;
-  color: #0d47a1;
+  color: #2563eb;
   border: 1px solid #2563eb;
 }
 

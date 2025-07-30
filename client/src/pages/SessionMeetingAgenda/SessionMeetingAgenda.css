@@ -1,34 +1,166 @@
-/* ========================================================================== */
-/* --- GLOBAL & PAGE STYLES (NO CHANGES) --- */
-/* ========================================================================== */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-
-body {
-  margin: 0;
-  font-family: "Inter", sans-serif;
-  color: #475569;
-}
-
-.session-meeting-agenda-page-wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background-color: #f0f2f5;
-  padding: 2rem;
-  box-sizing: border-box;
-}
-
 .session-meeting-agenda-container {
   background-color: #ffffff;
   padding: 1.5rem 2rem;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  color: #334155;
+  margin: 2rem;
   border: 1px solid #e2e8f0;
 }
 
 /* ... (All other main page styles remain the same) ... */
-.session-meeting-agenda-header{font-size:1.25rem;font-weight:600;color:#334155;margin:0 0 1.5rem 0;padding-bottom:1rem;border-bottom:1px solid #e2e8f0}.session-meeting-agenda-filter-section{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}.session-meeting-agenda-filter-controls-left{display:flex;align-items:flex-end;gap:1rem}.session-meeting-agenda-form-group label{display:block;font-size:.9rem;font-weight:500;color:#475569;margin-bottom:.5rem}.session-meeting-agenda-select-wrapper{position:relative}.session-meeting-agenda-select-wrapper::after{content:'▾';font-size:1rem;position:absolute;right:.75rem;top:50%;transform:translateY(-50%);color:#94a3b8;pointer-events:none}.session-meeting-agenda-select-wrapper select{-webkit-appearance:none;-moz-appearance:none;appearance:none;width:250px;padding:.6rem 2rem .6rem .75rem;border:1px solid #cbd5e1;border-radius:6px;font-size:.875rem;background-color:#fff}.session-meeting-agenda-btn{padding:.6rem 1.5rem;border:none;border-radius:6px;font-size:.875rem;font-weight:500;cursor:pointer;transition:background-color .2s;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;white-space:nowrap}.session-meeting-agenda-btn-filter,.session-meeting-agenda-btn-new-agenda{background-color:#3B82F6;color:#fff;height:fit-content}.session-meeting-agenda-btn-filter:hover,.session-meeting-agenda-btn-new-agenda:hover{background-color:#2563eb}.session-meeting-agenda-table-controls{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;font-size:.875rem;flex-wrap:wrap;gap:1rem}.session-meeting-agenda-show-entries,.session-meeting-agenda-search-records{display:flex;align-items:center;gap:.5rem}.session-meeting-agenda-show-entries select,.session-meeting-agenda-search-records input{padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:4px}.session-meeting-agenda-table-wrapper{width:100%;overflow-x:auto;border:1px solid #e2e8f0;border-radius:8px}table{width:100%;border-collapse:collapse}th,td{padding:.8rem 1rem;text-align:left;font-size:.875rem;border-bottom:1px solid #e2e8f0;white-space:nowrap}.session-meeting-agenda-loading-cell{text-align:center;padding:3rem;color:#64748b;font-style:italic;font-size:1rem}.session-meeting-agenda-table-footer{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;font-size:.875rem;color:#64748b;flex-wrap:wrap;gap:1rem}.session-meeting-agenda-pagination button{background-color:#fff;border:1px solid #e2e8f0;padding:.5rem 1rem;cursor:pointer}
-
+.session-meeting-agenda-header {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+.session-meeting-agenda-filter-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.session-meeting-agenda-filter-controls-left {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+}
+.session-meeting-agenda-form-group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #475569;
+  margin-bottom: 0.5rem;
+}
+.session-meeting-agenda-select-wrapper {
+  position: relative;
+}
+.session-meeting-agenda-select-wrapper::after {
+  content: "▾";
+  font-size: 1rem;
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  pointer-events: none;
+}
+.session-meeting-agenda-select-wrapper select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 250px;
+  padding: 0.6rem 2rem 0.6rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  background-color: #fff;
+}
+.session-meeting-agenda-btn {
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+.session-meeting-agenda-btn-filter {
+  background-color: #2563eb;
+  color: #fff;
+  height: fit-content;
+}
+.session-meeting-agenda-btn-new-agenda {
+  background-color: #bbdefb;
+  color: #0d47a1;
+  height: fit-content;
+}
+.session-meeting-agenda-btn-filter:hover {
+  background-color: #2563eb;
+}
+.session-meeting-agenda-table-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.session-meeting-agenda-show-entries,
+.session-meeting-agenda-search-records {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.session-meeting-agenda-show-entries select,
+.session-meeting-agenda-search-records input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+}
+.session-meeting-agenda-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+thead {
+  background-color: #f1f5f9;
+}
+th,
+td {
+  white-space: nowrap;
+  padding: 16px 24px;
+  text-align: center;
+  border-bottom: 1px solid #eaecf0;
+  font-size: 0.875rem;
+}
+th {
+   font-weight: 600;
+  color: #475569;
+}
+td {
+  color: #344054;
+}
+.session-meeting-agenda-loading-cell {
+  text-align: center;
+  padding: 3rem;
+  color: #64748b;
+  font-style: italic;
+  font-size: 1rem;
+}
+.session-meeting-agenda-table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: #64748b;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.session-meeting-agenda-pagination button {
+  background-color: #fff;
+  border: 1px solid #e2e8f0;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
 
 /* ========================================================================== */
 /* --- MODAL STYLES (WITH CHANGES) --- */
@@ -68,8 +200,8 @@ body {
 
 .agenda-modal-header h2 {
   font-size: 1.125rem;
-  font-weight: 600;
-  color: #334155;
+  font-weight: 500;
+  color: #1e293b;
 }
 
 .agenda-modal-close-btn {
@@ -107,7 +239,7 @@ body {
 }
 
 .agenda-modal-form-group label.required::after {
-  content: ' *';
+  content: " *";
   color: #ef4444;
 }
 
@@ -126,7 +258,7 @@ body {
 }
 
 .agenda-modal-select-wrapper::after {
-  content: '▾';
+  content: "▾";
   position: absolute;
   right: 0.75rem;
   top: 50%;
@@ -145,16 +277,16 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #e0f2fe;
   padding: 0.75rem 1rem;
   border-radius: 6px;
-  color: #0c4a6e;
   margin-bottom: 1rem;
+  background-color: #bbdefb;
+  color: #0d47a1;
 }
 
 .agenda-modal-mom-header h3 {
-  font-weight: 600;
-  font-size: 1rem;
+  font-weight: 500;
+  font-size: 0.9rem;
 }
 
 .agenda-modal-mom-add-btn {
@@ -226,7 +358,7 @@ body {
 
 .agenda-modal-buttons {
   display: flex;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .agenda-modal-btn-save {
@@ -239,10 +371,10 @@ body {
 }
 
 .agenda-modal-btn-cancel {
-  background-color: #f97316;
-  color: white;
-  border: none;
+  background-color: white;
+  color: #2563eb;
   padding: 0.6rem 1.5rem;
-  border-radius: 6px;
+  border-radius: 6px ;
   cursor: pointer;
+  border: 1px solid #2563eb;
 }

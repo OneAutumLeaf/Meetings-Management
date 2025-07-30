@@ -1,207 +1,62 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { MdEdit, MdDelete, MdCheckCircle, MdClose } from "react-icons/md";
-import "./TeamGroup.css"; // This single CSS file now styles all components
+import React, { useState, useEffect, useCallback } from "react";
+import { MdEdit, MdDelete, MdRemoveRedEye, MdClose } from "react-icons/md";
+import { teamGroupService } from "../../services/teamGroupService"; // Ensure this path is correct
+import "./TeamGroup.css";
 
-// --- MOCK DATA (Updated with standardized employee name format) ---
-const mockActiveGroups = [
-  {
-    id: 1,
-    groupName: "Programmer",
-    enteredDate: "05 Feb 2023",
-    enteredBy: "0100006577-SUJIT KUMAR SHAW",
-    members: [
-      { id: 101, name: "0100006577-SUJIT KUMAR SHAW" },
-      { id: 102, name: "0100003423-JOY BHATTACHARYA" },
-      { id: 103, name: "0100001111-ANOTHER DEVELOPER" },
-    ],
-  },
-  {
-    id: 2,
-    groupName: "Corporate Weekly Meeting",
-    enteredDate: "10 Feb 2023",
-    enteredBy: "0100105366-SAYANI CHATTERJEE",
-    members: [
-      { id: 201, name: "0100105366-SAYANI CHATTERJEE" },
-      { id: 202, name: "0100002343-DEBABRATA GUHA" },
-    ],
-  },
-  {
-    id: 3,
-    groupName: "NIS Morning Meeting",
-    enteredDate: "28 Feb 2023",
-    enteredBy: "0100089658-SREEPURNA CHAKRABORTY",
-    members: [],
-  },
-  {
-    id: 4,
-    groupName: "FCM KOL",
-    enteredDate: "06 May 2023",
-    enteredBy: "0100101775-Avirup Chakraborty",
-    members: [],
-  },
-  {
-    id: 5,
-    groupName: "Bill Submission & Collection Process",
-    enteredDate: "10 May 2023",
-    enteredBy: "0100089658-SREEPURNA CHAKRABORTY",
-    members: [],
-  },
-  {
-    id: 6,
-    groupName: "Workshop On E Attendance",
-    enteredDate: "10 May 2023",
-    enteredBy: "0100089658-SREEPURNA CHAKRABORTY",
-    members: [],
-  },
-  {
-    id: 7,
-    groupName: "KOL- FCM",
-    enteredDate: "20 May 2023",
-    enteredBy: "0100002343-DEBABRATA GUHA",
-    members: [],
-  },
-  {
-    id: 8,
-    groupName: "OKR REVIEW GROUP",
-    enteredDate: "22 May 2023",
-    enteredBy: "0100003080-SUBRATA DAS",
-    members: [],
-  },
-  {
-    id: 9,
-    groupName: "FCM - OKR Review",
-    enteredDate: "24 May 2023",
-    enteredBy: "0100006402-TANMOY MAJUMDER",
-    members: [],
-  },
-  {
-    id: 10,
-    groupName: "Durgapur Team",
-    enteredDate: "24 May 2023",
-    enteredBy: "0100000100-KRISHNENDU BHANJA",
-    members: [],
-  },
-  {
-    id: 11,
-    groupName: "Another Team",
-    enteredDate: "25 May 2023",
-    enteredBy: "0100001111-USER ONE",
-    members: [],
-  },
-  {
-    id: 12,
-    groupName: "Project Alpha",
-    enteredDate: "26 May 2023",
-    enteredBy: "0100002222-USER TWO",
-    members: [],
-  },
-  {
-    id: 13,
-    groupName: "Project Beta",
-    enteredDate: "27 May 2023",
-    enteredBy: "0100003333-USER THREE",
-    members: [],
-  },
-  {
-    id: 14,
-    groupName: "HR Department",
-    enteredDate: "28 May 2023",
-    enteredBy: "0100004444-USER FOUR",
-    members: [],
-  },
-  {
-    id: 15,
-    groupName: "Finance Team",
-    enteredDate: "29 May 2023",
-    enteredBy: "0100005555-USER FIVE",
-    members: [],
-  },
-  {
-    id: 16,
-    groupName: "IT Support",
-    enteredDate: "30 May 2023",
-    enteredBy: "0100006666-USER SIX",
-    members: [],
-  },
-  {
-    id: 17,
-    groupName: "Management",
-    enteredDate: "31 May 2023",
-    enteredBy: "0100007777-USER SEVEN",
-    members: [],
-  },
-];
-const mockDiscontinuedGroups = [
-  {
-    id: 18,
-    groupName: "Legacy System Support",
-    discontinueDate: "01 Jan 2023",
-    discontinueBy: "0100001234-ADMIN USER",
-    members: [],
-  },
-  {
-    id: 19,
-    groupName: "Q1 Marketing Campaign",
-    discontinueDate: "15 Feb 2023",
-    discontinueBy: "0100105366-SAYANI CHATTERJEE",
-    members: [],
-  },
-  {
-    id: 20,
-    groupName: "Old Website Team",
-    discontinueDate: "30 Mar 2023",
-    discontinueBy: "0100006577-SUJIT KUMAR SHAW",
-    members: [],
-  },
-];
-const allEmployees = [
-  { id: "emp1", name: "0100006577-SUJIT KUMAR SHAW" },
-  { id: "emp2", name: "0100105366-SAYANI CHATTERJEE" },
-  { id: "emp3", name: "0100089658-SREEPURNA CHAKRABORTY" },
-  { id: "emp4", name: "0100101775-Avirup Chakraborty" },
-  { id: "emp5", name: "0100002343-DEBABRATA GUHA" },
-  { id: "emp6", name: "0100003423-JOY BHATTACHARYA" },
-];
+// Helper to get user/company info
+const getAuthInfo = () => ({
+  logUserId: "TestUser", // Replace with real logged-in user ID
+  cmpId: "1", // Replace with real company ID
+});
 
 // ====================================================================
-// --- MODIFY GROUP MODAL ---
+// --- MODAL COMPONENTS ---
 // ====================================================================
-const ModifyGroupModal = ({ isOpen, onClose, group }) => {
-  const [groupName, setGroupName] = useState("");
+const ModifyGroupModal = ({ isOpen, onClose, group, onSave }) => {
   const [members, setMembers] = useState([]);
-
+  const [allEmployees, setAllEmployees] = useState([]);
   useEffect(() => {
-    if (group) {
-      setGroupName(group.groupName || "");
+    if (isOpen && group?.TeamGroup_HdrID) {
+      teamGroupService
+        .fetchAllEmployees()
+        .then((res) => setAllEmployees(res.data))
+        .catch((err) => console.error("Failed to fetch employees:", err));
       const initialMembers =
-        group.members?.map((m) => ({ ...m, isNew: false })) || [];
-      if (initialMembers.length === 0) {
-        initialMembers.push({ id: Date.now(), name: "", isNew: true });
-      }
+        group.members?.map((m) => ({
+          id: m.TeamGroup_DtlID,
+          name: m.EmployeeName,
+          isNew: false,
+        })) || [];
+      initialMembers.push({ id: Date.now(), name: "", isNew: true });
       setMembers(initialMembers);
+    } else {
+      setMembers([]);
+      setAllEmployees([]);
     }
-  }, [group]);
-
-  if (!isOpen || !group) return null;
-
-  const handleAddRow = () => {
+  }, [isOpen, group]);
+  if (!isOpen || !group?.TeamGroup_HdrID) return null;
+  const handleMemberChange = (id, newName) =>
+    setMembers(members.map((m) => (m.id === id ? { ...m, name: newName } : m)));
+  const handleAddRow = () =>
     setMembers([...members, { id: Date.now(), name: "", isNew: true }]);
+  const handleRemoveRow = (id) => {
+    if (members.length > 1) setMembers(members.filter((m) => m.id !== id));
   };
-
-  const handleRemoveRow = (idToRemove) => {
-    if (members.length <= 1) return;
-    setMembers(members.filter((member) => member.id !== idToRemove));
+  const handleSave = () => {
+    const newEmployeeIds = members
+      .filter((m) => m.isNew && m.name)
+      .map((m) => m.name);
+    if (newEmployeeIds.length > 0) {
+      onSave(group.TeamGroup_HdrID, newEmployeeIds);
+    } else {
+      onClose();
+    }
   };
-
-  const handleReset = () => {
-    onClose();
-  };
-
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>Modify {groupName}</h2>
+          <h2>Modify {group?.GroupName}</h2>
           <button className="modal-close-button" onClick={onClose}>
             ×
           </button>
@@ -209,7 +64,7 @@ const ModifyGroupModal = ({ isOpen, onClose, group }) => {
         <div className="modal-body">
           <div className="form-group">
             <label className="required">Group Name</label>
-            <input type="text" value={groupName} disabled />
+            <input type="text" value={group?.GroupName || ""} disabled />
           </div>
           <div className="team-members-section">
             <div className="team-members-header">
@@ -234,13 +89,18 @@ const ModifyGroupModal = ({ isOpen, onClose, group }) => {
                       <td>
                         {member.isNew ? (
                           <div className="select-wrapper">
-                            <select defaultValue="">
+                            <select
+                              value={member.name}
+                              onChange={(e) =>
+                                handleMemberChange(member.id, e.target.value)
+                              }
+                            >
                               <option value="" disabled>
                                 Search Employee
                               </option>
-                              {allEmployees.map((emp) => (
-                                <option key={emp.id} value={emp.name}>
-                                  {emp.name}
+                              {allEmployees.map((e) => (
+                                <option key={e.id} value={e.name}>
+                                  {e.name}
                                 </option>
                               ))}
                             </select>
@@ -271,9 +131,11 @@ const ModifyGroupModal = ({ isOpen, onClose, group }) => {
           </div>
         </div>
         <div className="modal-footer">
-          <button className="button-primary-modal">Save</button>
-          <button className="button-secondary-modal" onClick={handleReset}>
-            Add New / Cancel
+          <button className="button-primary-modal" onClick={handleSave}>
+            Save
+          </button>
+          <button className="button-secondary-modal" onClick={onClose}>
+            Cancel
           </button>
         </div>
       </div>
@@ -281,19 +143,55 @@ const ModifyGroupModal = ({ isOpen, onClose, group }) => {
   );
 };
 
-// ====================================================================
-// --- VIEW MEMBERS MODAL (Unchanged)---
-// ====================================================================
 const ViewMembersModal = ({ isOpen, onClose, group }) => {
   const [members, setMembers] = useState([]);
-  useEffect(() => {
-    if (group?.members) {
-      setMembers(group.members);
+  const [loading, setLoading] = useState(false);
+
+  const fetchMembers = useCallback(async (hdrId) => {
+    setLoading(true);
+    try {
+      const res = await teamGroupService.fetchDetails({
+        TeamGroup_HdrID: hdrId,
+        Status: "A",
+      });
+      setMembers(
+        Array.isArray(res.data?.TeamGroupDtl_ListResult?.T_TrnTeamGroup_Dtl)
+          ? res.data.TeamGroupDtl_ListResult.T_TrnTeamGroup_Dtl
+          : []
+      );
+    } catch (error) {
+      console.error("Failed to fetch members:", error);
+      setMembers([]);
+    } finally {
+      setLoading(false);
     }
-  }, [group]);
-  if (!isOpen || !group) return null;
-  const handleDeleteMember = (memberId) => {
-    setMembers((current) => current.filter((m) => m.id !== memberId));
+  }, []);
+
+  useEffect(() => {
+    if (isOpen && group?.TeamGroup_HdrID) {
+      fetchMembers(group.TeamGroup_HdrID);
+    } else {
+      setMembers([]);
+    }
+  }, [isOpen, group, fetchMembers]);
+
+  if (!isOpen || !group?.TeamGroup_HdrID) {
+    return null;
+  }
+
+  const handleDeleteMember = async (dtlId) => {
+    if (window.confirm("Are you sure you want to remove this member?")) {
+      try {
+        await teamGroupService.discontinueEmployee({
+          ...getAuthInfo(),
+          TeamGroup_DtlID: dtlId,
+        });
+        fetchMembers(group.TeamGroup_HdrID);
+      } catch (error) {
+        alert("Failed to delete member.");
+        console.error(error);
+      }
+    }
   };
 
   return (
@@ -306,65 +204,82 @@ const ViewMembersModal = ({ isOpen, onClose, group }) => {
           </button>
         </div>
         <div className="view-modal-body">
-          <table className="view-members-table">
-            <thead>
-              <tr>
-                <th>Sl No.</th>
-                <th>Employee Name</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {members.length > 0 ? (
-                members.map((member, index) => (
-                  <tr key={member.id}>
-                    <td>{index + 1}</td>
-                    <td>{member.name}</td>
-                    <td className="view-member-action-cell">
-                      <button
-                        className="view-member-delete-button"
-                        title="Delete Member"
-                        onClick={() => handleDeleteMember(member.id)}
-                      >
-                        <MdDelete />
-                      </button>
+          {loading ? (
+            <p>Loading members...</p>
+          ) : (
+            <table className="view-members-table">
+              <thead>
+                <tr>
+                  <th>Sl No.</th>
+                  <th>Employee Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {members.length > 0 ? (
+                  members.map((member, index) => (
+                    <tr key={member.TeamGroup_DtlID}>
+                      <td>{index + 1}</td>
+                      <td>{member.EmployeeName}</td>
+                      <td className="view-member-action-cell">
+                        <button
+                          className="view-member-delete-button"
+                          title="Delete Member"
+                          onClick={() =>
+                            handleDeleteMember(member.TeamGroup_DtlID)
+                          }
+                        >
+                          <MdDelete />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="3" className="no-members-text">
+                      No active members in this group.
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="3" className="no-members-text">
-                    No members in this group.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                )}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-// ====================================================================
-// --- ADD GROUP MODAL (Unchanged) ---
-// ====================================================================
-const AddGroupModal = ({ isOpen, onClose }) => {
-  const [members, setMembers] = useState([{ id: 1, employee: "" }]);
-  if (!isOpen) return null;
-  const handleAddRow = () => {
-    setMembers([...members, { id: Date.now(), employee: "" }]);
-  };
-  const handleRemoveRow = (id) => {
-    if (members.length > 1) {
-      setMembers(members.filter((m) => m.id !== id));
+const AddGroupModal = ({ isOpen, onClose, onSave }) => {
+  const [groupName, setGroupName] = useState("");
+  const [members, setMembers] = useState([{ id: 1, name: "" }]);
+  const [allEmployees, setAllEmployees] = useState([]);
+  useEffect(() => {
+    if (isOpen) {
+      setGroupName("");
+      setMembers([{ id: 1, name: "" }]);
+      teamGroupService
+        .fetchAllEmployees()
+        .then((res) => setAllEmployees(res.data))
+        .catch((err) => console.error("Failed to fetch employees:", err));
     }
+  }, [isOpen]);
+  if (!isOpen) return null;
+  const handleAddRow = () =>
+    setMembers([...members, { id: Date.now(), name: "" }]);
+  const handleRemoveRow = (id) => {
+    if (members.length > 1) setMembers(members.filter((m) => m.id !== id));
   };
-  const handleReset = () => {
-    setMembers([{ id: 1, employee: "" }]);
-    onClose();
+  const handleMemberChange = (id, newName) =>
+    setMembers(members.map((m) => (m.id === id ? { ...m, name: newName } : m)));
+  const handleSave = () => {
+    if (!groupName.trim()) {
+      alert("Group Name is required.");
+      return;
+    }
+    const employeeIds = members.filter((m) => m.name).map((m) => m.name);
+    onSave(groupName, employeeIds);
   };
-
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -377,7 +292,12 @@ const AddGroupModal = ({ isOpen, onClose }) => {
         <div className="modal-body">
           <div className="form-group">
             <label className="required">Group Name</label>
-            <input type="text" placeholder="Enter Group Name" />
+            <input
+              type="text"
+              placeholder="Enter Group Name"
+              value={groupName}
+              onChange={(e) => setGroupName(e.target.value)}
+            />
           </div>
           <div className="team-members-section">
             <div className="team-members-header">
@@ -401,7 +321,12 @@ const AddGroupModal = ({ isOpen, onClose }) => {
                       <td>{index + 1}</td>
                       <td>
                         <div className="select-wrapper">
-                          <select defaultValue="">
+                          <select
+                            value={member.name}
+                            onChange={(e) =>
+                              handleMemberChange(member.id, e.target.value)
+                            }
+                          >
                             <option value="" disabled>
                               Search Employee
                             </option>
@@ -435,9 +360,11 @@ const AddGroupModal = ({ isOpen, onClose }) => {
           </div>
         </div>
         <div className="modal-footer">
-          <button className="button-primary-modal">Save</button>
-          <button className="button-secondary-modal" onClick={handleReset}>
-            Add New / Cancel
+          <button className="button-primary-modal" onClick={handleSave}>
+            Save
+          </button>
+          <button className="button-secondary-modal" onClick={onClose}>
+            Cancel
           </button>
         </div>
       </div>
@@ -446,9 +373,10 @@ const AddGroupModal = ({ isOpen, onClose }) => {
 };
 
 // ====================================================================
-// --- MAIN TEAM GROUP COMPONENT ---
+// --- MAIN PARENT COMPONENT ---
 // ====================================================================
 const TeamGroup = () => {
+  const [groups, setGroups] = useState([]);
   const [activeTab, setActiveTab] = useState("active");
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -458,120 +386,131 @@ const TeamGroup = () => {
   const [isViewModalOpen, setViewModalOpen] = useState(false);
   const [isModifyModalOpen, setModifyModalOpen] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState(null);
+  const [error, setError] = useState(null);
 
+  // Reset modal state on mount to prevent accidental opening
   useEffect(() => {
-    setLoading(true);
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [activeTab]);
+    setViewModalOpen(false);
+    setSelectedGroup(null);
+  }, []);
 
-  const filteredData = useMemo(() => {
-    const sourceData =
-      activeTab === "active" ? mockActiveGroups : mockDiscontinuedGroups;
-    if (!searchTerm) return sourceData;
-    return sourceData.filter((item) =>
-      Object.values(item).some((val) =>
-        String(val).toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
+  // Debug state changes for isViewModalOpen
+  useEffect(() => {
+    console.log("isViewModalOpen:", isViewModalOpen, "selectedGroup:", selectedGroup);
+  }, [isViewModalOpen, selectedGroup]);
+
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const { cmpId } = getAuthInfo();
+      const params = {
+        Status: activeTab === "active" ? "A" : "D",
+        CMPID: cmpId,
+        GroupName: searchTerm || "%",
+        TeamGroup_HdrID: "%",
+      };
+      const res = await teamGroupService.fetchHeaders(params);
+      const result = res.data?.TeamGroup_Hdr_ListResult;
+      setGroups(
+        Array.isArray(result?.T_MstTeamGroup_Hdr)
+          ? result.T_MstTeamGroup_Hdr
+          : []
+      );
+    } catch (err) {
+      setError("Failed to fetch team groups. Please try again.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   }, [activeTab, searchTerm]);
 
-  // --- Pagination Logic ---
-  const indexOfLastEntry = currentPage * entriesPerPage;
-  const indexOfFirstEntry = indexOfLastEntry - entriesPerPage;
-  const currentEntries = filteredData.slice(
-    indexOfFirstEntry,
-    indexOfLastEntry
-  );
-  const totalPages = Math.ceil(filteredData.length / entriesPerPage);
-  const startEntry = filteredData.length > 0 ? indexOfFirstEntry + 1 : 0;
-  const endEntry = Math.min(indexOfLastEntry, filteredData.length);
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
-  // --- Event Handlers ---
-  const handlePageChange = (page) => setCurrentPage(page);
+  // --- CRUD HANDLERS ---
+  const handleCreateGroup = async (groupName, teamEmployeeIds) => {
+    try {
+      await teamGroupService.create({
+        ...getAuthInfo(),
+        groupName,
+        teamEmployeeIds,
+      });
+      setAddModalOpen(false);
+      fetchData();
+    } catch (error) {
+      alert("Failed to create group.");
+      console.error(error);
+    }
+  };
+
+  const handleModifyGroup = async (teamGroupHdrId, teamEmployeeIds) => {
+    try {
+      await teamGroupService.modify({
+        ...getAuthInfo(),
+        teamGroupHdrId,
+        teamEmployeeIds,
+      });
+      setModifyModalOpen(false);
+      fetchData();
+    } catch (error) {
+      alert("Failed to add new members.");
+      console.error(error);
+    }
+  };
+
+  const handleDeleteGroup = async (hdrId) => {
+    if (window.confirm("Are you sure you want to discontinue this group?")) {
+      try {
+        await teamGroupService.discontinue({
+          ...getAuthInfo(),
+          TeamGroup_HdrID: hdrId,
+        });
+        fetchData();
+      } catch (error) {
+        alert("Failed to discontinue group.");
+        console.error(error);
+      }
+    }
+  };
+
+  // --- UI EVENT HANDLERS ---
   const handleTabClick = (tab) => {
     setActiveTab(tab);
     setCurrentPage(1);
-    setSearchTerm("");
   };
+
   const handleViewClick = (group) => {
+    console.log("View button clicked for group:", group);
     setSelectedGroup(group);
     setViewModalOpen(true);
   };
-  const handleEditClick = (group) => {
-    setSelectedGroup(group);
-    setModifyModalOpen(true);
+
+  const handleEditClick = async (group) => {
+    try {
+      const res = await teamGroupService.fetchDetails({
+        TeamGroup_HdrID: group.TeamGroup_HdrID,
+        Status: "A",
+      });
+      const groupWithMembers = {
+        ...group,
+        members: res.data?.TeamGroupDtl_ListResult?.T_TrnTeamGroup_Dtl || [],
+      };
+      setSelectedGroup(groupWithMembers);
+      setModifyModalOpen(true);
+    } catch (err) {
+      alert("Could not load group details for editing.");
+      console.error(err);
+    }
   };
 
-  // --- Render Functions ---
-  const renderTableHeaders = () => (
-    <tr>
-      <th>SL No.</th>
-      <th>Action</th>
-      <th>Group Name</th>
-      {activeTab === "active" ? (
-        <>
-          <th>Entered Date</th>
-          <th>Entered By</th>
-        </>
-      ) : (
-        <>
-          <th>Discontinue Date</th>
-          <th>Discontinue By</th>
-        </>
-      )}
-    </tr>
+  // --- PAGINATION LOGIC ---
+  const currentEntries = groups.slice(
+    (currentPage - 1) * entriesPerPage,
+    currentPage * entriesPerPage
   );
-
-  const renderTableBody = () => {
-    if (loading)
-      return (
-        <tr>
-          <td colSpan="5" className="loading-text">
-            Loading !...
-          </td>
-        </tr>
-      );
-    if (currentEntries.length === 0)
-      return (
-        <tr>
-          <td colSpan="5" className="no-data-text">
-            No records found
-          </td>
-        </tr>
-      );
-    return currentEntries.map((item, index) => (
-      <tr key={item.id}>
-        <td>{indexOfFirstEntry + index + 1}</td>
-        <td className="action-cell">
-          <button
-            className="icon-button-action view"
-            title="View"
-            onClick={() => handleViewClick(item)}
-          >
-            <MdCheckCircle />
-          </button>
-          <button
-            className="icon-button-action edit"
-            title="Edit"
-            onClick={() => handleEditClick(item)}
-          >
-            <MdEdit />
-          </button>
-          <button className="icon-button-action delete" title="Delete">
-            <MdDelete />
-          </button>
-        </td>
-        <td>{item.groupName}</td>
-        <td>
-          {activeTab === "active" ? item.enteredDate : item.discontinueDate}
-        </td>
-        <td>{activeTab === "active" ? item.enteredBy : item.discontinueBy}</td>
-      </tr>
-    ));
-  };
+  const totalPages = Math.ceil(groups.length / entriesPerPage);
 
   return (
     <>
@@ -625,48 +564,129 @@ const TeamGroup = () => {
               <input
                 type="text"
                 id="search"
-                placeholder="Search records"
+                placeholder="Search by Group Name"
                 value={searchTerm}
-                onChange={(e) => {
-                  setSearchTerm(e.target.value);
-                  setCurrentPage(1);
-                }}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && fetchData()}
               />
+              <button onClick={fetchData} style={{ marginLeft: "8px" }}>
+                Search
+              </button>
             </div>
           </div>
           <div className="table-wrapper">
             <table className="data-table">
-              <thead>{renderTableHeaders()}</thead>
-              <tbody>{renderTableBody()}</tbody>
+              <thead>
+                <tr>
+                  <th>SL No.</th>
+                  <th>Action</th>
+                  <th>Group Name</th>
+                  {activeTab === "active" ? (
+                    <>
+                      <th>Entered Date</th>
+                      <th>Entered By</th>
+                    </>
+                  ) : (
+                    <>
+                      <th>Discontinue Date</th>
+                      <th>Discontinue By</th>
+                    </>
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {loading ? (
+                  <tr>
+                    <td colSpan="5" className="loading-text">
+                      Loading...
+                    </td>
+                  </tr>
+                ) : error ? (
+                  <tr>
+                    <td colSpan="5" className="no-data-text">
+                      {error}
+                    </td>
+                  </tr>
+                ) : currentEntries.length === 0 ? (
+                  <tr>
+                    <td colSpan="5" className="no-data-text">
+                      No records found
+                    </td>
+                  </tr>
+                ) : (
+                  currentEntries.map((item, index) => (
+                    <tr key={item.TeamGroup_HdrID}>
+                      <td>{(currentPage - 1) * entriesPerPage + index + 1}</td>
+                      <td className="action-cell">
+                        <button
+                          className="icon-button-action view"
+                          title="View"
+                          onClick={() => handleViewClick(item)}
+                        >
+                          <MdRemoveRedEye />
+                        </button>
+                        <button
+                          className="icon-button-action edit"
+                          title="Edit"
+                          onClick={() => handleEditClick(item)}
+                        >
+                          <MdEdit />
+                        </button>
+                        <button
+                          className="icon-button-action delete"
+                          title="Discontinue"
+                          onClick={() =>
+                            handleDeleteGroup(item.TeamGroup_HdrID)
+                          }
+                        >
+                          <MdDelete />
+                        </button>
+                      </td>
+                      <td>{item.GroupName}</td>
+                      <td>
+                        {activeTab === "active"
+                          ? item.EnteredDate
+                          : item.DiscontinueDate}
+                      </td>
+                      <td>
+                        {activeTab === "active"
+                          ? item.EnteredBy
+                          : item.DiscontinueBy}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
             </table>
           </div>
           <div className="table-pagination">
             <div className="showing-entries-info">
-              Showing {startEntry} to {endEntry} of {filteredData.length}{" "}
-              entries
+              Showing{" "}
+              {groups.length > 0 ? (currentPage - 1) * entriesPerPage + 1 : 0}{" "}
+              to {Math.min(currentPage * entriesPerPage, groups.length)} of{" "}
+              {groups.length} entries
             </div>
             <div className="pagination-buttons">
               <button
-                onClick={() => handlePageChange(currentPage - 1)}
+                onClick={() => setCurrentPage((p) => p - 1)}
                 disabled={currentPage === 1}
               >
-                {" "}
                 Previous
               </button>
               {[...Array(totalPages).keys()].map((number) => (
                 <button
                   key={number + 1}
-                  onClick={() => handlePageChange(number + 1)}
+                  onClick={() => setCurrentPage(number + 1)}
                   className={currentPage === number + 1 ? "active-page" : ""}
                 >
                   {number + 1}
                 </button>
               ))}
               <button
-                onClick={() => handlePageChange(currentPage + 1)}
+                onClick={() => setCurrentPage((p) => p + 1)}
                 disabled={currentPage === totalPages}
               >
-                Next{" "}
+                Next
               </button>
             </div>
           </div>
@@ -676,6 +696,7 @@ const TeamGroup = () => {
       <AddGroupModal
         isOpen={isAddModalOpen}
         onClose={() => setAddModalOpen(false)}
+        onSave={handleCreateGroup}
       />
       <ViewMembersModal
         isOpen={isViewModalOpen}
@@ -686,6 +707,7 @@ const TeamGroup = () => {
         isOpen={isModifyModalOpen}
         onClose={() => setModifyModalOpen(false)}
         group={selectedGroup}
+        onSave={handleModifyGroup}
       />
     </>
   );
