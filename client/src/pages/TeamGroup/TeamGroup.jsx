@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { MdEdit, MdDelete, MdRemoveRedEye, MdClose } from "react-icons/md";
-import { teamGroupService } from "../../services/teamGroupService"; // Ensure this path is correct
+import { teamGroupService } from "../../services/teamGroupService";
 import "./TeamGroup.css";
 
 // Helper to get user/company info
 const getAuthInfo = () => ({
-  logUserId: "TestUser", // Replace with real logged-in user ID
-  cmpId: "1", // Replace with real company ID
+  logUserId: "TestUser",
+  cmpId: "1",
 });
 
 // ====================================================================
-// --- MODAL COMPONENTS ---
+// --- MODAL COMPONENTS (Unchanged) ---
 // ====================================================================
 const ModifyGroupModal = ({ isOpen, onClose, group, onSave }) => {
   const [members, setMembers] = useState([]);
@@ -24,7 +24,7 @@ const ModifyGroupModal = ({ isOpen, onClose, group, onSave }) => {
       const initialMembers =
         group.members?.map((m) => ({
           id: m.TeamGroup_DtlID,
-          name: m.EmployeeName,
+          name: `${m.EmpID} - ${m.TeamMemberName}`,
           isNew: false,
         })) || [];
       initialMembers.push({ id: Date.now(), name: "", isNew: true });
@@ -153,12 +153,11 @@ const ViewMembersModal = ({ isOpen, onClose, group }) => {
       const res = await teamGroupService.fetchDetails({
         TeamGroup_HdrID: hdrId,
         Status: "A",
+        EmpID: "%",
+        TeamGroup_DtlID: "%",
       });
-      setMembers(
-        Array.isArray(res.data?.TeamGroupDtl_ListResult?.T_TrnTeamGroup_Dtl)
-          ? res.data.TeamGroupDtl_ListResult.T_TrnTeamGroup_Dtl
-          : []
-      );
+      const result = res.data?.TeamGroupDtl_ListResult;
+      setMembers(Array.isArray(result) ? result : []);
     } catch (error) {
       console.error("Failed to fetch members:", error);
       setMembers([]);
@@ -220,7 +219,7 @@ const ViewMembersModal = ({ isOpen, onClose, group }) => {
                   members.map((member, index) => (
                     <tr key={member.TeamGroup_DtlID}>
                       <td>{index + 1}</td>
-                      <td>{member.EmployeeName}</td>
+                      <td>{member.TeamMemberName}</td>
                       <td className="view-member-action-cell">
                         <button
                           className="view-member-delete-button"
@@ -411,15 +410,14 @@ const TeamGroup = () => {
         TeamGroup_HdrID: "%",
       };
       const res = await teamGroupService.fetchHeaders(params);
+      console.log("API Response:", res.data);
       const result = res.data?.TeamGroup_Hdr_ListResult;
-      setGroups(
-        Array.isArray(result?.T_MstTeamGroup_Hdr)
-          ? result.T_MstTeamGroup_Hdr
-          : []
-      );
+      const fetchedGroups = Array.isArray(result) ? result : [];
+      setGroups(fetchedGroups);
+      console.log("Set Groups:", fetchedGroups);
     } catch (err) {
       setError("Failed to fetch team groups. Please try again.");
-      console.error(err);
+      console.error("Fetch Error:", err);
     } finally {
       setLoading(false);
     }
@@ -493,9 +491,10 @@ const TeamGroup = () => {
         TeamGroup_HdrID: group.TeamGroup_HdrID,
         Status: "A",
       });
+      const membersResult = res.data?.TeamGroupDtl_ListResult;
       const groupWithMembers = {
         ...group,
-        members: res.data?.TeamGroupDtl_ListResult?.T_TrnTeamGroup_Dtl || [],
+        members: Array.isArray(membersResult) ? membersResult : [],
       };
       setSelectedGroup(groupWithMembers);
       setModifyModalOpen(true);
@@ -569,9 +568,6 @@ const TeamGroup = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && fetchData()}
               />
-              <button onClick={fetchData} style={{ marginLeft: "8px" }}>
-                Search
-              </button>
             </div>
           </div>
           <div className="table-wrapper">
@@ -645,13 +641,13 @@ const TeamGroup = () => {
                       <td>{item.GroupName}</td>
                       <td>
                         {activeTab === "active"
-                          ? item.EnteredDate
-                          : item.DiscontinueDate}
+                          ? item.Created_DateTime
+                          : item.Discontinue_DateTime}
                       </td>
                       <td>
                         {activeTab === "active"
-                          ? item.EnteredBy
-                          : item.DiscontinueBy}
+                          ? item.CreatedBY_EmpName
+                          : item.DiscontinueBY_EmpName}
                       </td>
                     </tr>
                   ))
